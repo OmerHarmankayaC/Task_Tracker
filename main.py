@@ -9,6 +9,26 @@ def add_task():
               "exp": exp,
               "dueDate": dueDate})
 
+def delete_task():
+    if (len(tasks) == 0):
+        print("You don't have any tasks!")
+        return
+    
+    while True:
+        print("Enter \"exit\" to return to main menu.")
+        deleteIndex = input("Please enter the task number that you want to delete: ")
+        
+        if (deleteIndex.casefold() == "exit"):
+            return
+        
+        elif (int(deleteIndex) < 1 or int(deleteIndex) > len(tasks)):
+            print("Please enter a viable number!")
+        
+        else:
+            tasks.pop(int(deleteIndex) - 1)
+            print("Task has been succesfully removed!")
+            return
+
 def list_tasks():
     if (len(tasks) == 0):
         print("You don't have any tasks!")
@@ -19,16 +39,21 @@ def list_tasks():
 while True:
     print("1-See my tasks")
     print("2-Add a new task")
-    print("3-Exit")
+    print("3-Delete a task")
+    print("4-Exit")
 
     opr = input("Please enter your operation: ")
 
     if (opr == "1"):
         list_tasks()
     
-    if (opr == "2"):
+    elif (opr == "2"):
         add_task()
 
-    if (opr == "3"):
+    elif (opr == "3"):
+        list_tasks()
+        delete_task()
+
+    elif (opr == "4"):
         print("Terminating the program...")
         break
