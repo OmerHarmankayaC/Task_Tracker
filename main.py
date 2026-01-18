@@ -23,9 +23,9 @@ def delete_task():
         if (deleteIndex.casefold() == "exit"):
             print("Returning to the main menu...")
             return
-        
-        elif (int(deleteIndex) < 1 or int(deleteIndex) > len(tasks)):
-            print("Please enter a viable number!")
+
+        elif (deleteIndex.isdigit() == False or int(deleteIndex) < 1 or int(deleteIndex) > len(tasks)):
+            print("Please enter a viable number from the list!")
         
         else:
             tasks.pop(int(deleteIndex) - 1)
@@ -53,9 +53,9 @@ def edit_task():
         if (editIndex.casefold() == "exit"):
             print("Returning to the main menu...")
             return
-        
-        elif (int(editIndex) < 1 or int(editIndex) > len(tasks)):
-            print("Please enter a viable number!")
+
+        elif (editIndex.isdigit() == False or int(editIndex) < 1 or int(editIndex) > len(tasks)):
+            print("Please enter a valid number from the list!")
 
         else:
             while True:
@@ -65,31 +65,37 @@ def edit_task():
                 print("4-Edit a different task")
                 print("5-Return to main menu")
 
-                editType = int(input("Enter the number that you want to edit: "))
+                editType = input("Enter the number that you want to edit: ")
                 task = tasks[int(editIndex) - 1]
 
-                if (editType == 4):
-                    break
-                
-                elif (editType == 5):
-                    print("Returning to the main menu.")
-                    return
+                if (editType.isdigit() == False or int(editType) > 5 or int(editType) < 1):
+                    print("Please enter a valid number from the list!")
 
-                elif (editType == 1):
-                    newTitle = input("Enter the new title: ")
-                    task["title"] = newTitle
+                else:    
+                    if (editType == "4"):
+                        break
+                    
+                    elif (editType == "5"):
+                        print("Returning to the main menu.")
+                        return
 
-                elif (editType == 2):
-                    newDesc = input("Enter the new description: ")
-                    task["desc"] = newDesc
+                    elif (editType == "1"):
+                        newTitle = input("Enter the new title: ")
+                        task["title"] = newTitle
 
-                elif (editType == 3):
-                    newDate = input("Enter the new due-date: ")
-                    task["dueDate"] = newDate
+                    elif (editType == "2"):
+                        newDesc = input("Enter the new description: ")
+                        task["desc"] = newDesc
+
+                    elif (editType == "3"):
+                        newDate = input("Enter the new due-date: ")
+                        task["dueDate"] = newDate
+
+                    print("Your task has been successfully updated!")
 
 def load_json():
     try:
-        with open("Tasks.json", "r") as file:
+        with open("tasks.json", "r") as file:
             return json.load(file)
 
     except (FileNotFoundError):
@@ -98,13 +104,13 @@ def load_json():
         return []
     
     except (json.JSONDecodeError):
-        print("tasks.jason is corrupted, reseting the file...")
+        print("tasks.json is corrupted, reseting the file...")
         with open("tasks.json", "w") as file:
             json.dump([], file, indent = 4)
         return []
 
 def write_json():
-    with open("Tasks.json", "w") as file:
+    with open("tasks.json", "w") as file:
         json.dump(tasks, file, indent = 4)
 
 tasks = load_json()
@@ -137,3 +143,6 @@ while True:
     elif (opr == "5"):
         print("Terminating the program...")
         break
+
+    else:
+        print("Please enter a valid operation!")
