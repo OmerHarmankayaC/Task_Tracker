@@ -1,3 +1,5 @@
+import json
+
 tasks = []
 
 def add_task():
@@ -42,8 +44,6 @@ def edit_task():
     if (len(tasks) == 0):
         print("You don't have any tasks!")
         return
-    
-    
 
     while True:
         list_tasks()
@@ -89,6 +89,20 @@ def edit_task():
                     task = tasks[int(editIndex) - 1]
                     task["dueDate"] = newDate
 
+def load_json():
+    try:
+        with open("Tasks.json", "r") as file:
+            return json.load(file)
+
+    except (FileNotFoundError, json.JSONDecodeError):
+        return
+
+def write_json():
+    with open("Tasks.json", "w") as file:
+        json.dump(tasks, file, indent = 4)
+
+tasks = load_json()
+
 while True:
     print("1-See my tasks")
     print("2-Add a new task")
@@ -103,13 +117,16 @@ while True:
     
     elif (opr == "2"):
         add_task()
+        write_json()
 
     elif (opr == "3"):
         list_tasks()
         delete_task()
+        write_json()
 
     elif (opr == "4"):
         edit_task()
+        write_json()
 
     elif (opr == "5"):
         print("Terminating the program...")
