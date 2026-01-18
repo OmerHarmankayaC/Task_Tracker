@@ -66,6 +66,7 @@ def edit_task():
                 print("5-Return to main menu")
 
                 editType = int(input("Enter the number that you want to edit: "))
+                task = tasks[int(editIndex) - 1]
 
                 if (editType == 4):
                     break
@@ -76,17 +77,14 @@ def edit_task():
 
                 elif (editType == 1):
                     newTitle = input("Enter the new title: ")
-                    task = tasks[int(editIndex) - 1]
                     task["title"] = newTitle
 
                 elif (editType == 2):
                     newDesc = input("Enter the new description: ")
-                    task = tasks[int(editIndex) - 1]
                     task["desc"] = newDesc
 
                 elif (editType == 3):
                     newDate = input("Enter the new due-date: ")
-                    task = tasks[int(editIndex) - 1]
                     task["dueDate"] = newDate
 
 def load_json():
@@ -94,8 +92,16 @@ def load_json():
         with open("Tasks.json", "r") as file:
             return json.load(file)
 
-    except (FileNotFoundError, json.JSONDecodeError):
-        return
+    except (FileNotFoundError):
+        with open("tasks.json", "w") as file:
+            json.dump([], file, indent = 4)
+        return []
+    
+    except (json.JSONDecodeError):
+        print("tasks.jason is corrupted, reseting the file...")
+        with open("tasks.json", "w") as file:
+            json.dump([], file, indent = 4)
+        return []
 
 def write_json():
     with open("Tasks.json", "w") as file:
