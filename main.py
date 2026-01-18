@@ -2,11 +2,11 @@ tasks = []
 
 def add_task():
     title = input("Please enter your task title: ")
-    exp = input("Please enter the explanation: ")
+    desc = input("Please enter the description: ")
     dueDate = input("Please enter the due-date: ")
 
     tasks.append({"title": title,
-              "exp": exp,
+              "desc": desc,
               "dueDate": dueDate})
 
 def delete_task():
@@ -19,6 +19,7 @@ def delete_task():
         deleteIndex = input("Please enter the task number that you want to delete: ")
         
         if (deleteIndex.casefold() == "exit"):
+            print("Returning to the main menu...")
             return
         
         elif (int(deleteIndex) < 1 or int(deleteIndex) > len(tasks)):
@@ -32,15 +33,68 @@ def delete_task():
 def list_tasks():
     if (len(tasks) == 0):
         print("You don't have any tasks!")
+        return
     
     for index, i in enumerate(tasks, start = 1):
-        print(index, "-", i["title"], ":", i["exp"], ";", i["dueDate"])
+        print(index, "-", i["title"], ":", i["desc"], ";", i["dueDate"])
+
+def edit_task():
+    if (len(tasks) == 0):
+        print("You don't have any tasks!")
+        return
+    
+    
+
+    while True:
+        list_tasks()
+        print("Enter \"exit\" to return to the menu.")
+        editIndex = input("Please enter the task number that you want to edit: ")
+
+        if (editIndex.casefold() == "exit"):
+            print("Returning to the main menu...")
+            return
+        
+        elif (int(editIndex) < 1 or int(editIndex) > len(tasks)):
+            print("Please enter a viable number!")
+
+        else:
+            while True:
+                print("1-Title")
+                print("2-Description")
+                print("3-Due-date")
+                print("4-Edit a different task")
+                print("5-Return to main menu")
+
+                editType = int(input("Enter the number that you want to edit: "))
+
+                if (editType == 4):
+                    break
+                
+                elif (editType == 5):
+                    print("Returning to the main menu.")
+                    return
+
+                elif (editType == 1):
+                    newTitle = input("Enter the new title: ")
+                    task = tasks[int(editIndex) - 1]
+                    task["title"] = newTitle
+
+                elif (editType == 2):
+                    newDesc = input("Enter the new description: ")
+                    task = tasks[int(editIndex) - 1]
+                    task["desc"] = newDesc
+
+                elif (editType == 3):
+                    newDate = input("Enter the new due-date: ")
+                    task = tasks[int(editIndex) - 1]
+                    task["dueDate"] = newDate
 
 while True:
     print("1-See my tasks")
     print("2-Add a new task")
     print("3-Delete a task")
-    print("4-Exit")
+    print("4-Edit a task")
+    print("5-Exit")
 
     opr = input("Please enter your operation: ")
 
@@ -55,5 +109,8 @@ while True:
         delete_task()
 
     elif (opr == "4"):
+        edit_task()
+
+    elif (opr == "5"):
         print("Terminating the program...")
         break
