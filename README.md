@@ -1,76 +1,55 @@
 # Task Tracker CLI
 
+A command-line task tracker in Python. Add, list, edit and delete tasks; they
+persist to a JSON file between runs.
 
-A simple command-line based task-tracker application written in Python. This program allows its users to manage their tasks by adding, listing, editing and deleting the tasks. The program uses a JSON file for data persistence.
+This was an early learning project — the point was to practise the fundamentals
+end to end: modular functions, input validation, and file persistence that
+survives a corrupted or missing file.
 
+## Features
 
-## Features:
-- Adding tasks
-- Editing existing tasks
-- Listing tasks
-- Removing tasks
-- Data persistence with JSON
-- Input validation for crash management
-- Simple user-friendly menu
+- Add, edit, list and remove tasks
+- JSON persistence
+- Input validation, so a wrong keystroke re-prompts instead of crashing
+- A plain menu-driven interface
 
+## Running it
 
+Requires Python 3.
 
-## Technologies Used:
-- Python
-- JSON
-- CLI
+```bash
+git clone https://github.com/OmerHarmankayaC/Task_Tracker.git
+cd Task_Tracker
+python main.py
+```
 
-## Concepts and Skills:
-- Functions and modular programming
-- Lists and dictionaries
-- Input validation
-- JSON serialization & deserialization
-- Loops
-- Command-line interface design
-- Basic error handling
+## Data format
 
-## How to Run:
-1. Make sure to have Python 3 installed.
-2. Clone the repository
-	
-		git clone https://github.com/OmerHarmankayaC/Task_Tracker.git
-3. Run the program
+Each task is a dictionary in `tasks.json`:
 
-   		python main.py
+```json
+{
+  "title": "Finish assignment",
+  "desc": "Complete Python task tracker project",
+  "dueDate": "2026-01-20"
+}
+```
 
-## Data Storage
+## Error handling
 
-Each task is stored as a dictionary with the following format in the tasks.json file
+Most input errors here are `ValueError`s, so every value is type-checked right
+before use and the user is asked again on a mismatch. Two file errors are
+handled the same way: a `FileNotFoundError` creates a fresh file, and a
+`JSONDecodeError` replaces a corrupted one.
 
-	{
-  	"title": "Finish assignment",
-  	"desc": "Complete Python task tracker project",
-  	"dueDate": "2026-01-20"
-	}
+## Possible improvements
 
-## Error Handling
-
-The common types of input errors in this program are ValueErrors
-
-To prevent errors to distrupt the user, this program uses simple error handling mechanisms right before the input is going to be used.
-
-The program checks if the input value is in the desired type, if not asks user to re-enter the value.
-
-Other types of errors include:
-- FileNotFoundError: Creates a new file if there isn't one
-- JSONDecodeError: Creates a new file if the current one is corrupted
- 
-## Possible Improvements
-
-- Adding completed attribute to tasks. So that the users can mark the tasks when they complete them.
-- The completed attribute can be used for further improvement such as, creating an interface where the user can only see the tasks that they completed or vice versa.
+- A `completed` flag on tasks, and filtering by it
 - Due-date validation
-- Prioritizing tasks
+- Task priorities
 
-## About the Author
+## Author
 
-Ömer Harmankaya
-
-Computer Engineering student at TED University
-
-This project was developed as part of personal learning and skill improvement.
+Ömer Harmankaya — Computer Engineering student at TED University. Built for
+personal practice.
